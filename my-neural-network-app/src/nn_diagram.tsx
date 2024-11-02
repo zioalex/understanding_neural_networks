@@ -1,52 +1,52 @@
 import React, { useState, useEffect } from 'react';
 
 const NetworkDiagram = ({ step }) => {
-  const scalingFactor = 1.5; // Define the scaling factor
   const Node = ({ cx, cy, label, type, stepVisible }) => {
-      const getNodeColor = (type, isActive) => {
-        if (!isActive) return "#f0f0f0";
-        const colors = {
-          input: "#333333",
-          hidden: "#ffeeba",
-          output: "#d5f5e3",
-          expected: "#d5f5e3",
-          loss: "#f5b7b1"
-        };
-        return colors[type] || "#f0f0f0";
+    const getNodeColor = (type, isActive) => {
+      if (!isActive) return "#f0f0f0";
+      const colors = {
+        input: "#333333",
+        hidden: "#ffeeba",
+        output: "#d5f5e3",
+        expected: "#d5f5e3",
+        loss: "#f5b7b1"
       };
-  
-      return (
-        <g>
-          <circle
-            cx={cx * scalingFactor}
-            cy={cy * scalingFactor}
-            r={30 * scalingFactor}
-            fill={step >= stepVisible ? getNodeColor(type, true) : "#f0f0f0"}
-            stroke={step >= stepVisible ? "#333" : "#ddd"}
-            strokeWidth="3"
-          />
-          <text
-            x={cx * scalingFactor}
-            y={cy * scalingFactor}
-            textAnchor="middle"
-            dy=".3em"
-            fill={type === "input" && step >= stepVisible ? "#fff" : "#666"}
-            fontSize={16 * scalingFactor}
-          >
-            {label}
-          </text>
-        </g>
-      );
+      return colors[type] || "#f0f0f0";
     };
+
+    return (
+      <g>
+        <circle
+          cx={cx}
+          cy={cy}
+          r="30"
+          fill={step >= stepVisible ? getNodeColor(type, true) : "#f0f0f0"}
+          stroke={step >= stepVisible ? "#333" : "#ddd"}
+          strokeWidth="3"
+        />
+        <text
+          x={cx}
+          y={cy}
+          textAnchor="middle"
+          dy=".3em"
+          fill={type === "input" && step >= stepVisible ? "#fff" : "#666"}
+          fontSize="16"
+        >
+          {label}
+        </text>
+      </g>
+    );
+  };
 
   const Connection = ({ x1, y1, x2, y2, stepVisible, isBackprop = false }) => (
     <line
-      x1={x1 * 1.5}
-      y1={y1 * 1.5}
-      x2={x2 * 1.5}
-      y2={y2 * 1.5}
-      stroke={step >= stepVisible ? (isBackprop ? "#ff0000" : "#000") : "#ddd"}
-      strokeWidth="2"
+      x1={x1}
+      y1={y1}
+      x2={x2}
+      y2={y2}
+      stroke={step >= stepVisible ? (isBackprop ? "#ff4444" : "#333") : "#f0f0f0"}
+      strokeWidth={step >= stepVisible ? "3" : "2"}
+      markerEnd={isBackprop ? "url(#arrowhead)" : ""}
     />
   );
 
